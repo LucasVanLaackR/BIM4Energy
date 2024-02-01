@@ -7,8 +7,6 @@ from io import BytesIO
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
 import pyvista as pv
-from PIL import Image
-import numpy as np
 
 # Define the buildingStandard dictionary here, so it's accessible in the main() function
 buildingStandard = {
@@ -115,11 +113,10 @@ def main():
     }
 
     # Layout for 3D visualization and text results
-col1, col2 = st.columns([3, 2])
+    col1, col2 = st.columns([3, 2])
 
     with col1:
         st.header("3D Building Visualization")
-
         # PyVista plot setup
         plotter = pv.Plotter(off_screen=True)
         cube = pv.Cube(center=(0, 0, 0), x_length=4, y_length=4, z_length=4)
@@ -133,8 +130,6 @@ col1, col2 = st.columns([3, 2])
         # Display the screenshot in Streamlit
         st.image(img, caption='3D Cube Visualization', use_column_width=True)
 
-## Send to streamlit
-stpyvista(plotter, key="pv_cube")
     with col2:
         # Display Project Information
         st.subheader('Project Information')
