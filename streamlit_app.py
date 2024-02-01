@@ -5,8 +5,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from io import BytesIO
 
-#Display logo
-logo_url = 'https://www.bim4energy.eu/wp-content/uploads/2024/02/Geometric-Logo-3_Colors-1.png'  # Replace with your logo URL
+# Display logo
+logo_url = 'https://www.bim4energy.eu/wp-content/uploads/2024/02/Geometric-Logo-3_Colors-1.png'
 st.sidebar.image(logo_url, width=300)  # Adjust the width as needed
 
 # Streamlit app title
@@ -53,10 +53,11 @@ with st.sidebar:
         selected_latitude = f_map["last_clicked"]["lat"]
         selected_longitude = f_map["last_clicked"]["lng"]
         selected_coordinates = f"{selected_latitude}, {selected_longitude}"
+        # Here, integrate reverse geocoding to set 'country' based on 'selected_latitude' and 'selected_longitude'
 
     st.header('Project Information')
     projectName = st.text_input('Project Name', 'My Project 1')
-    country = st.text_input('Country', 'Norway')
+    country = st.text_input('Country', 'Auto-detected country')  # Placeholder for auto-detected country
     coordinates = st.text_input('Coordinates', value=selected_coordinates)
     buildingType = st.selectbox('Building Type', ['Residential', 'Commercial', 'Industrial'])
     yearConstructionCompletion = st.text_input('Year of Construction Completion', '1950')
@@ -72,7 +73,7 @@ with st.sidebar:
     st.header('Assessment Information')
     selectBuildingStandard = st.selectbox('Building Standard', ['TEK87', 'TEK97'])
 
-# Project information and calculations (mockup, replace with your logic)
+# Project information and calculations
 energy_consumption = {
     "Space Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Space Heating"],
     "Service Water Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Service Water Heating"],
@@ -118,7 +119,7 @@ def create_pdf(project_info, energy_consumption):
 # Generate and download PDF report
 project_info = {
     'projectName': projectName,
-    'country': country,
+    'country': country,  # Adjust according to actual country detection
     'coordinates': coordinates,
 }
 
