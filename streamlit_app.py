@@ -4,6 +4,19 @@ import folium
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from io import BytesIO
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
+
+# Function to perform reverse geocoding
+def reverse_geocode(lat, lon):
+    geolocator = Nominatim(user_agent="streamlit_geopy_user")
+    try:
+        location = geolocator.reverse((lat, lon), exactly_one=True)
+        if location:
+            return location.address
+    except (GeocoderTimedOut, GeocoderUnavailable) as e:
+        st.error(f"Geocoding error: {e}")
+    return None
 
 # Display logo
 logo_url = 'https://www.bim4energy.eu/wp-content/uploads/2024/02/Geometric-Logo-3_Colors-1.png'
@@ -48,16 +61,19 @@ with st.sidebar:
     f_map = st_folium(m, width=330, height=500)
 
     # Attempt to get last clicked position or use default
+    country_name = "Norway"  # Default country
     selected_coordinates = f"{DEFAULT_LATITUDE}, {DEFAULT_LONGITUDE}"
     if f_map.get("last_clicked"):
         selected_latitude = f_map["last_clicked"]["lat"]
         selected_longitude = f_map["last_clicked"]["lng"]
         selected_coordinates = f"{selected_latitude}, {selected_longitude}"
-        # Here, integrate reverse geocoding to set 'country' based on 'selected_latitude' and 'selected_longitude'
+        address = reverse_geocode(selected_latitude, selected_longitude)
+        if address:
+            country_name = address.split(',')[-1].strip()
 
     st.header('Project Information')
     projectName = st.text_input('Project Name', 'My Project 1')
-    country = st.text_input('Country', 'Auto-detected country')  # Placeholder for auto-detected country
+    country = st.text_input('Country', country_name)
     coordinates = st.text_input('Coordinates', value=selected_coordinates)
     buildingType = st.selectbox('Building Type', ['Residential', 'Commercial', 'Industrial'])
     yearConstructionCompletion = st.text_input('Year of Construction Completion', '1950')
@@ -73,59 +89,7 @@ with st.sidebar:
     st.header('Assessment Information')
     selectBuildingStandard = st.selectbox('Building Standard', ['TEK87', 'TEK97'])
 
-# Project information and calculations
+# Project information and calculations (mockup, replace with your logic)
 energy_consumption = {
     "Space Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Space Heating"],
-    "Service Water Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Service Water Heating"],
-    "Fans and Pumps": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Fans and Pumps"],
-    "Internal Lighting": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Internal Lighting"],
-    "Miscellaneous": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Miscellaneous"]
-}
-
-# Display Project Information
-st.subheader('Project Information')
-st.write(f"Project Name: {projectName}")
-st.write(f"Country: {country}")
-st.write(f"Coordinates: {coordinates}")
-st.write(f"Building Type: {buildingType}")
-st.write(f"Year of Construction Completion: {yearConstructionCompletion}")
-st.write(f"Number of Building Users: {numberBuildingUsers}")
-
-# Display Calculated Energy Consumption
-st.subheader('Energy Consumption')
-for key, value in energy_consumption.items():
-    st.write(f"{key}: {value} kWh")
-
-# Function to create a PDF report
-def create_pdf(project_info, energy_consumption):
-    buffer = BytesIO()
-    c = canvas.Canvas(buffer, pagesize=letter)
-
-    c.drawString(100, 800, "BIM4ENERGY Assessment Report")
-    c.drawString(100, 780, f"Project Name: {project_info['projectName']}")
-    c.drawString(100, 760, f"Country: {project_info['country']}")
-    c.drawString(100, 740, f"Coordinates: {project_info['coordinates']}")
-
-    y_position = 720
-    for key, value in energy_consumption.items():
-        c.drawString(100, y_position, f"{key}: {value} kWh")
-        y_position -= 20
-
-    c.showPage()
-    c.save()
-    buffer.seek(0)
-    return buffer.getvalue()
-
-# Generate and download PDF report
-project_info = {
-    'projectName': projectName,
-    'country': country,  # Adjust according to actual country detection
-    'coordinates': coordinates,
-}
-
-if st.button('Generate PDF Report'):
-    pdf_bytes = create_pdf(project_info, energy_consumption)
-    st.download_button(label="Download PDF Report",
-                       data=pdf_bytes,
-                       file_name="BIM4ENERGY_Report.pdf",
-                       mime="application/pdf")
+    "Service Water Heating": areaGross
