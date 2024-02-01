@@ -11,3 +11,4 @@ pyvista
 bokeh
 panel
 bleach
+watchdog
