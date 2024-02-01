@@ -92,4 +92,56 @@ with st.sidebar:
 # Project information and calculations (mockup, replace with your logic)
 energy_consumption = {
     "Space Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Space Heating"],
-    "Service Water Heating": areaGross
+    "Service Water Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Service Water Heating"],
+    "Fans and Pumps": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Fans and Pumps"],
+    "Internal Lighting": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Internal Lighting"],
+    "Miscellaneous": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Miscellaneous"]
+}
+
+# Display Project Information
+st.subheader('Project Information')
+st.write(f"Project Name: {projectName}")
+st.write(f"Country: {country}")
+st.write(f"Coordinates: {coordinates}")
+st.write(f"Building Type: {buildingType}")
+st.write(f"Year of Construction Completion: {yearConstructionCompletion}")
+st.write(f"Number of Building Users: {numberBuildingUsers}")
+
+# Display Calculated Energy Consumption
+st.subheader('Energy Consumption')
+for key, value in energy_consumption.items():
+    st.write(f"{key}: {value} kWh")
+
+# Function to create a PDF report
+def create_pdf(project_info, energy_consumption):
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+
+    c.drawString(100, 800, "BIM4ENERGY Assessment Report")
+    c.drawString(100, 780, f"Project Name: {project_info['projectName']}")
+    c.drawString(100, 760, f"Country: {project_info['country']}")
+    c.drawString(100, 740, f"Coordinates: {project_info['coordinates']}")
+
+    y_position = 720
+    for key, value in energy_consumption.items():
+        c.drawString(100, y_position, f"{key}: {value} kWh")
+        y_position -= 20
+
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+    return buffer.getvalue()
+
+# Generate and download PDF report
+project_info = {
+    'projectName': projectName,
+    'country': country,
+    'coordinates': coordinates,
+}
+
+if st.button('Generate PDF Report'):
+    pdf_bytes = create_pdf(project_info, energy_consumption)
+    st.download_button(label="Download PDF Report",
+                       data=pdf_bytes,
+                       file_name="BIM4ENERGY_Report.pdf",
+                       mime="application/pdf")
