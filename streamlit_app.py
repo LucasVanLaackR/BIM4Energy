@@ -113,7 +113,7 @@ def main():
     }
 
     # Layout for 3D visualization and text results
-    col1, col2 = st.columns([3, 2])
+col1, col2 = st.columns([3, 2])
 """
     with col1:
         st.header("3D Building Visualization")
