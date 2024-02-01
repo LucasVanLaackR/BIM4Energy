@@ -4,3 +4,4 @@ streamlit-keplergl
 geopy
 folium
 reportlab
+pythreejs
