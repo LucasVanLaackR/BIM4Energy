@@ -1,5 +1,6 @@
 streamlit
 streamlit-folium
+reportlab
 geopy
 folium
 stpyvista
