@@ -114,7 +114,7 @@ def main():
 
     # Layout for 3D visualization and text results
     col1, col2 = st.columns([3, 2])
-
+"""
     with col1:
         st.header("3D Building Visualization")
         # PyVista plot setup
@@ -129,7 +129,7 @@ def main():
         
         # Display the screenshot in Streamlit
         st.image(img, caption='3D Cube Visualization', use_column_width=True)
-
+"""
     with col2:
         # Display Project Information
         st.subheader('Project Information')
