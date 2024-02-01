@@ -6,8 +6,8 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 
 #Display logo
-logo_url = 'https://www.bim4energy.eu/wp-content/uploads/2024/01/Geometric-Logo-1.png'  # Replace with your logo URL
-st.sidebar.image(logo_url, width=100)  # Adjust the width as needed
+logo_url = 'https://www.bim4energy.eu/wp-content/uploads/2024/02/Geometric-Logo-3_Colors-1.png'  # Replace with your logo URL
+st.sidebar.image(logo_url, width=300)  # Adjust the width as needed
 
 # Streamlit app title
 st.title('BIM4ENERGY Assessment')
