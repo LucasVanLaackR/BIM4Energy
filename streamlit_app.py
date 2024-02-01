@@ -1,6 +1,9 @@
 import streamlit as st
 from streamlit_folium import st_folium
 import folium
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
 
 # Streamlit app title
 st.title('BIM4ENERGY Assessment')
@@ -68,3 +71,47 @@ energy_consumption = {
 st.subheader('Energy Consumption')
 for key, value in energy_consumption.items():
     st.write(f"{key}: {value} kWh")
+
+# Create a PDF 
+def create_pdf(project_info, energy_consumption):
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    # Add your PDF content here
+    c.drawString(100, 800, "BIM4ENERGY Assessment Report")
+    c.drawString(100, 780, f"Project Name: {project_info['projectName']}")
+    c.drawString(100, 760, f"Country: {project_info['country']}")
+    c.drawString(100, 740, f"Coordinates: {project_info['coordinates']}")
+
+    # Energy Consumption
+    y_position = 720
+    for key, value in energy_consumption.items():
+        c.drawString(100, y_position, f"{key}: {value} kWh")
+        y_position -= 20
+
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+    return buffer.getvalue()
+
+# Assuming you have gathered project_info and energy_consumption in the right format
+project_info = {
+    'projectName': projectName,
+    'country': country,
+    'coordinates': coordinates,
+    # Add other project details as necessary
+}
+
+# Assuming energy_consumption is a dictionary with your calculated values
+energy_consumption = {
+    # Your calculated energy consumption data here...
+}
+
+# Place to add the PDF generation button
+if st.button('Generate PDF Report'):
+    pdf_bytes = create_pdf(project_info, energy_consumption)
+    st.download_button(label='Download PDF Report',
+                       data=pdf_bytes,
+                       file_name='bim4energy_report.pdf',
+                       mime='application/pdf')
