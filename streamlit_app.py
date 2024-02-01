@@ -89,7 +89,7 @@ with st.sidebar:
     st.header('Assessment Information')
     selectBuildingStandard = st.selectbox('Building Standard', ['TEK87', 'TEK97'])
 
-# Project information and calculations (mockup, replace with your logic)
+# Project information and calculations 
 energy_consumption = {
     "Space Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Space Heating"],
     "Service Water Heating": areaGrossFloor * buildingStandard["Norway"][selectBuildingStandard]["Single Family"]["Service Water Heating"],
