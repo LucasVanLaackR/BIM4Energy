@@ -7,3 +7,6 @@ reportlab
 pythreejs
 numpy
 stpyvista
+pyvista
+bokeh
+panel
