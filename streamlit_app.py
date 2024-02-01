@@ -10,27 +10,162 @@ import pyvista as pv
 
 # Define the buildingStandard dictionary here, so it's accessible in the main() function
 buildingStandard = {
-    "Norway": {
-        "TEK87": {
-            "Single Family": {
-                "Space Heating": 100,
-                "Service Water Heating": 20,
-                "Fans and Pumps": 6,
-                "Internal Lighting": 24,
-                "Miscellaneous": 25
+        "Norway": 
+            { 
+            "TEK87" : 
+                {    
+                "Single Family" : 
+                    {
+                    "Space Heating": 100,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 20,
+                    "Fans and Pumps": 6,
+                    "Internal Lighting": 24,
+                    "Miscellaneous": 25                    
+                    },
+                "Apartment" : 
+                    {
+                    "Space Heating": 97,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 7,
+                    "Internal Lighting": 24,
+                    "Miscellaneous": 27                    
+                    },  
+                "Office" : 
+                    {
+                    "Space Heating": 96,
+                    "Space Cooling": 21,
+                    "Service Water Heating": 5,
+                    "Fans and Pumps": 46,
+                    "Internal Lighting": 47,
+                    "Miscellaneous": 34                    
+                    }            
+                },
+            "TEK97" : 
+                {    
+                "Single Family" : 
+                    {
+                    "Space Heating": 93,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 31,
+                    "Fans and Pumps": 8,
+                    "Internal Lighting": 18,
+                    "Miscellaneous": 24                    
+                    },
+                "Apartment" : 
+                    {
+                    "Space Heating": 81,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 26,
+                    "Fans and Pumps": 9,
+                    "Internal Lighting": 15,
+                    "Miscellaneous": 20                    
+                    },  
+                "Office" : 
+                    {
+                    "Space Heating": 117,
+                    "Space Cooling": 19,
+                    "Service Water Heating": 4,
+                    "Fans and Pumps": 17,
+                    "Internal Lighting": 19,
+                    "Miscellaneous": 26                    
+                    } 
+                },                    
+            "TEK07" : 
+                {    
+                "Single Family" : 
+                    {
+                    "Space Heating": 57,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 8,
+                    "Internal Lighting": 17,
+                    "Miscellaneous": 23                    
+                    },
+                "Apartment" : 
+                    {
+                    "Space Heating": 37,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 10,
+                    "Internal Lighting": 17,
+                    "Miscellaneous": 23                    
+                    },  
+                "Office" : 
+                    {
+                    "Space Heating": 54,
+                    "Space Cooling": 24,
+                    "Service Water Heating": 5,
+                    "Fans and Pumps": 22,
+                    "Internal Lighting": 25,
+                    "Miscellaneous": 34                    
+                    } 
+                }, 
+            "TEK10" : 
+                {    
+                "Single Family" : 
+                    {
+                    "Space Heating": 52,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 8,
+                    "Internal Lighting": 17,
+                    "Miscellaneous": 23                    
+                    },
+                "Apartment" : 
+                    {
+                    "Space Heating": 32,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 10,
+                    "Internal Lighting": 17,
+                    "Miscellaneous": 23                    
+                    },  
+                "Office" : 
+                    {
+                    "Space Heating": 39,
+                    "Space Cooling": 24,
+                    "Service Water Heating": 5,
+                    "Fans and Pumps": 22,
+                    "Internal Lighting": 25,
+                    "Miscellaneous": 34                    
+                    } 
+                },  
+            "TEK17" : 
+                {    
+                "Single Family" : 
+                    {
+                    "Space Heating": 48,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 8,
+                    "Internal Lighting": 14,
+                    "Miscellaneous": 19                    
+                    },
+                "Apartment" : 
+                    {
+                    "Space Heating": 30,
+                    "Space Cooling": 0,
+                    "Service Water Heating": 30,
+                    "Fans and Pumps": 8,
+                    "Internal Lighting": 14,
+                    "Miscellaneous": 20                    
+                    },  
+                "Office" : 
+                    {
+                    "Space Heating": 31,
+                    "Space Cooling": 19,
+                    "Service Water Heating": 5,
+                    "Fans and Pumps": 17,
+                    "Internal Lighting": 19,
+                    "Miscellaneous": 26                    
+                    } 
+                }                    
             }
-        },
-        "TEK97": {
-            "Single Family": {
-                "Space Heating": 93,
-                "Service Water Heating": 31,
-                "Fans and Pumps": 8,
-                "Internal Lighting": 18,
-                "Miscellaneous": 24
-            }
-        },
-    }
-}
+        }
+
+
 
 # Function to perform reverse geocoding
 def reverse_geocode(lat, lon):
