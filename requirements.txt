@@ -16,3 +16,4 @@ validators
 xyzservices
 decorator
 tzlocal
+traitlets
