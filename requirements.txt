@@ -12,5 +12,6 @@ bokeh
 panel
 bleach
 watchdog
-validator
+validators
 xyzservices
+decorator
