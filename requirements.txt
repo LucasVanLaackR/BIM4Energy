@@ -17,3 +17,4 @@ xyzservices
 decorator
 tzlocal
 traitlets
+typing_extensions
