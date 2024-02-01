@@ -10,3 +10,4 @@ stpyvista
 pyvista
 bokeh
 panel
+bleach
