@@ -8,8 +8,29 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
 import pyvista as pv
 
-# Assuming st_pyvista is a module for integrating PyVista with Streamlit, which you will need to implement or adapt
-# If st_pyvista does not exist, you'll need to find a workaround for displaying PyVista plots in Streamlit
+# Define the buildingStandard dictionary here, so it's accessible in the main() function
+buildingStandard = {
+    "Norway": {
+        "TEK87": {
+            "Single Family": {
+                "Space Heating": 100,
+                "Service Water Heating": 20,
+                "Fans and Pumps": 6,
+                "Internal Lighting": 24,
+                "Miscellaneous": 25
+            }
+        },
+        "TEK97": {
+            "Single Family": {
+                "Space Heating": 93,
+                "Service Water Heating": 31,
+                "Fans and Pumps": 8,
+                "Internal Lighting": 18,
+                "Miscellaneous": 24
+            }
+        },
+    }
+}
 
 # Function to perform reverse geocoding
 def reverse_geocode(lat, lon):
