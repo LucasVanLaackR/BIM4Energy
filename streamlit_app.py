@@ -1,14 +1,42 @@
 import streamlit as st
+from streamlit_folium import st_folium
+from geopy.geocoders import Nominatim
+import folium
 
-# Streamlit app title
+# Function to perform reverse geocoding
+def reverse_geocode(lat, lon):
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.reverse([lat, lon], exactly_one=True)
+    if location:
+        return location.address
+    else:
+        return "", ""
+
 st.title('BIM4ENERGY Assessment')
 
-# Sidebar for user inputs
+# Sidebar for map and user inputs
 with st.sidebar:
+    st.header('Select Your Location on the Map')
+    default_location = [59.9139, 10.7522]  # Center of Norway
+    m = folium.Map(location=default_location, zoom_start=5)
+
+    # Folium map in Streamlit
+    map_response = st_folium(m, width=725, height=500)
+
+    # If a location is selected, get the country and coordinates
+    if map_response['last_clicked']:
+        lat, lon = map_response['last_clicked']['lat'], map_response['last_clicked']['lng']
+        address = reverse_geocode(lat, lon)
+        country = address.split(',')[-1].strip() if address else ""
+        coordinates = f"{lat}, {lon}"
+    else:
+        country = "Norway"  # Default
+        coordinates = "59.9077106, 10.6785692"  # Default
+
     st.header('Project Information')
     projectName = st.text_input('Project Name', 'My Project 1')
-    country = st.text_input('Country', 'Norway')
-    coordinates = st.text_input('Coordinates', '59.9077106, 10.6785692')
+    country = st.text_input('Country', country)
+    coordinates = st.text_input('Coordinates', coordinates)
     buildingType = st.selectbox('Building Type', ['Residential', 'Commercial', 'Industrial'])
     yearConstructionCompletion = st.text_input('Year of Construction Completion', '1950')
     numberBuildingUsers = st.number_input('Number of Building Users', min_value=1, value=4, step=1)
@@ -87,5 +115,3 @@ energy_consumption = {
 st.subheader('Energy Consumption')
 for key, value in energy_consumption.items():
     st.write(f"{key}: {value} kWh")
-
-# Instructions for running the app will be provided in the text after the code.
