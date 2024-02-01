@@ -12,3 +12,4 @@ bokeh
 panel
 bleach
 watchdog
+validator
