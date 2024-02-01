@@ -62,16 +62,6 @@ def create_pdf(project_info, energy_consumption):
     buffer.seek(0)
     return buffer.getvalue()
 
-# Function to generate and display a 3D cube
-def generate_3d_cube():
-    plotter = pv.Plotter(off_screen=True)
-    cube = pv.Cube(center=(0, 0, 0), x_length=4, y_length=4, z_length=4)
-    plotter.add_mesh(cube, color='cyan', show_edges=True)
-    plotter.set_background('white')
-    plotter.camera_position = 'xy'
-    img = plotter.screenshot()
-    return img
-
 # Main app
 def main():
     # Display logo and app title
@@ -129,9 +119,14 @@ def main():
 
     with col1:
         st.header("3D Building Visualization")
-        # Display the 3D Cube
-        cube_image = generate_3d_cube()
-        st.image(cube_image, caption='3D Cube Visualization', use_column_width=True)
+        # Setup for off-screen rendering
+        plotter = pv.Plotter(off_screen=True)
+        cube = pv.Cube(center=(0, 0, 0), x_length=4, y_length=4, z_length=4)
+        plotter.add_mesh(cube, color='cyan', show_edges=True)
+        plotter.set_background('white')
+        plotter.camera_position = 'xy'
+        img = plotter.screenshot()
+        st.image(img, caption='3D Cube Visualization', use_column_width=True)
 
     with col2:
         # Display Project Information
