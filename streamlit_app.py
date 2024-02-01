@@ -2,33 +2,29 @@ import streamlit as st
 from streamlit_folium import st_folium
 import folium
 
-# Initialize default coordinates
-DEFAULT_LATITUDE = 59.9139
-DEFAULT_LONGITUDE = 10.7522
-
 # Streamlit app title
 st.title('BIM4ENERGY Assessment')
 
-# Map setup to select location
-st.header('Select a Location on the Map')
-m = folium.Map(location=[DEFAULT_LATITUDE, DEFAULT_LONGITUDE], zoom_start=10)
-m.add_child(folium.LatLngPopup())
-
-f_map = st_folium(m, width=725)
-
-# Attempt to get last clicked position or use default
-selected_latitude = DEFAULT_LATITUDE
-selected_longitude = DEFAULT_LONGITUDE
-
-if f_map.get("last_clicked"):
-    selected_latitude = f_map["last_clicked"]["lat"]
-    selected_longitude = f_map["last_clicked"]["lng"]
-
-# Convert selected coordinates into string format for the input field
-selected_coordinates = f"{selected_latitude}, {selected_longitude}"
-
-# Sidebar for user inputs
+# Sidebar for user inputs and map
 with st.sidebar:
+    # Initialize default coordinates
+    DEFAULT_LATITUDE = 59.9139
+    DEFAULT_LONGITUDE = 10.7522
+
+    st.header('Select Your Location on the Map')
+    m = folium.Map(location=[DEFAULT_LATITUDE, DEFAULT_LONGITUDE], zoom_start=10)
+    m.add_child(folium.LatLngPopup())
+
+    f_map = st_folium(m, width=330, height=500)  # Adjust the width and height if needed
+
+    # Attempt to get last clicked position or use default
+    if f_map.get("last_clicked"):
+        selected_latitude = f_map["last_clicked"]["lat"]
+        selected_longitude = f_map["last_clicked"]["lng"]
+        selected_coordinates = f"{selected_latitude}, {selected_longitude}"
+    else:
+        selected_coordinates = f"{DEFAULT_LATITUDE}, {DEFAULT_LONGITUDE}"
+
     st.header('Project Information')
     projectName = st.text_input('Project Name', 'My Project 1')
     country = st.text_input('Country', 'Norway')
