@@ -13,3 +13,4 @@ panel
 bleach
 watchdog
 validator
+xyzservices
